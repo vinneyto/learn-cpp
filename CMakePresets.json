@@ -1,0 +1,37 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "debug",
+      "displayName": "Debug",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/debug",
+      "installDir": "${sourceDir}/out/install/debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "rel-with-deb-info",
+      "displayName": "Debug Asan",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/rel-with-deb-info",
+      "installDir": "${sourceDir}/out/install/rel-with-deb-info",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS": "-fsanitize=address -fno-omit-frame-pointer",
+        "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=address"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "debug",
+      "configurePreset": "debug"
+    },
+    {
+      "name": "Debug Asan",
+      "configurePreset": "rel-with-deb-info"
+    }
+  ]
+}
