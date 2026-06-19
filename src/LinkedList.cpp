@@ -1,5 +1,4 @@
 #include <cstddef>
-#include <stdexcept>
 #include <utility>
 
 #include "LinkedList.h"
@@ -23,20 +22,14 @@ LinkedList::LinkedList() {}
 LinkedList::LinkedList(const LinkedList &other) {
   LinkedList tmp;
 
-  try {
-    // i don't understand if it can throw error
-    for (TLinkedElement *it = other.cbegin(); it != other.cend();
-         it = it->next()) {
-      tmp.push_back(it->value);
-    }
-
-    // in case error thrown before - tmp will be destored by raii
-
-    swap(tmp);
-  } catch (...) {
-    // throw smth?
-    throw std::runtime_error("enable to copy linked list");
+  // i don't understand if it can throw error
+  for (TLinkedElement *it = other.cbegin(); it != other.cend();
+       it = it->next()) {
+    tmp.push_back(it->value);
   }
+
+  // in case error thrown before - tmp will be destored by raii
+  swap(tmp);
 }
 
 LinkedList::LinkedList(LinkedList &&other) noexcept {
