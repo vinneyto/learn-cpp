@@ -13,6 +13,10 @@ TLinkedElement *TLinkedElement::prev() { return prev_; }
 
 TLinkedElement *TLinkedElement::next() { return next_; }
 
+const TLinkedElement *TLinkedElement::prev() const { return prev_; }
+
+const TLinkedElement *TLinkedElement::next() const { return next_; }
+
 // end TLinkedElement
 
 // LinkedList
@@ -23,7 +27,7 @@ LinkedList::LinkedList(const LinkedList &other) {
   LinkedList tmp;
 
   // i don't understand if it can throw error
-  for (TLinkedElement *it = other.cbegin(); it != other.cend();
+  for (const TLinkedElement *it = other.begin(); it != other.end();
        it = it->next()) {
     tmp.push_back(it->value);
   }
@@ -117,14 +121,8 @@ void LinkedList::erase(TLinkedElement *elem) {
 TLinkedElement *LinkedList::begin() { return head_; }
 TLinkedElement *LinkedList::end() { return nullptr; }
 
-TLinkedElement *LinkedList::cbegin() const { return head_; }
-TLinkedElement *LinkedList::cend() const { return nullptr; }
-
-TLinkedElement *LinkedList::rbegin() { return tail_; }
-TLinkedElement *LinkedList::rend() { return nullptr; }
-
-TLinkedElement *LinkedList::crbegin() const { return tail_; }
-TLinkedElement *LinkedList::crend() const { return nullptr; }
+const TLinkedElement *LinkedList::begin() const { return head_; }
+const TLinkedElement *LinkedList::end() const { return nullptr; }
 
 void LinkedList::swap(LinkedList &other) {
   std::swap(head_, other.head_);

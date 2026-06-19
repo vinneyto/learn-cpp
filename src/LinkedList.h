@@ -15,6 +15,9 @@ struct TLinkedElement {
   TLinkedElement *prev();
   TLinkedElement *next();
 
+  const TLinkedElement *prev() const;
+  const TLinkedElement *next() const;
+
 private:
   TLinkedElement *prev_ = nullptr;
   TLinkedElement *next_ = nullptr;
@@ -56,14 +59,8 @@ public:
   */
   TLinkedElement *end();
 
-  TLinkedElement *cbegin() const;
-  TLinkedElement *cend() const;
-
-  TLinkedElement *rbegin();
-  TLinkedElement *rend();
-
-  TLinkedElement *crbegin() const;
-  TLinkedElement *crend() const;
+  const TLinkedElement *begin() const;
+  const TLinkedElement *end() const;
 
   void clear();
 
