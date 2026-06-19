@@ -2,4 +2,11 @@
   "tab_size": 2,
   "hard_tabs": false,
   "format_on_save": "on",
+  "lsp": {
+    "clangd": {
+      "binary": {
+        "arguments": ["--compile-commands-dir=out/build/debug"],
+      },
+    },
+  },
 }
