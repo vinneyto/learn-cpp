@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <utility>
 
-#include "./LinkedList.h"
+#include "LinkedList.h"
 
 // TLinkedElement
 

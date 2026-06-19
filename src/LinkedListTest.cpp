@@ -1,4 +1,4 @@
-#include "./LinkedList.h"
+#include "LinkedList.h"
 
 #include <cassert>
 #include <gtest/gtest.h>

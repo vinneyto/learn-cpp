@@ -2,7 +2,7 @@
 #include <cstddef>
 #include <iostream>
 
-#include "./LinkedList.h"
+#include "LinkedList.h"
 
 /*
 Task:
