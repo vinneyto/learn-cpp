@@ -35,7 +35,7 @@ LinkedList::LinkedList(const LinkedList &other) {
   swap(tmp);
 }
 
-LinkedList::LinkedList(LinkedList &&other)
+LinkedList::LinkedList(LinkedList &&other) noexcept
     : head_(other.head_), tail_(other.tail_), size_(other.size_) {
 
   other.head_ = nullptr;

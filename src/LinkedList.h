@@ -29,7 +29,7 @@ public:
 
   LinkedList(const LinkedList &other);
 
-  LinkedList(LinkedList &&other);
+  LinkedList(LinkedList &&other) noexcept;
 
   /*resources should be free after list is destroyed*/
   ~LinkedList();
