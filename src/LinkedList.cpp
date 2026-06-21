@@ -35,10 +35,12 @@ LinkedList::LinkedList(const LinkedList &other) {
   swap(tmp);
 }
 
-LinkedList::LinkedList(LinkedList &&other) {
-  swap(other); // swap eats && as first argument - is it ok?
+LinkedList::LinkedList(LinkedList &&other)
+    : head_(other.head_), tail_(other.tail_), size_(other.size_) {
 
-  other.clear();
+  other.head_ = nullptr;
+  other.tail_ = nullptr;
+  other.size_ = 0;
 }
 
 LinkedList::~LinkedList() { clear(); }

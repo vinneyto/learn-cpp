@@ -10,7 +10,7 @@ struct TLinkedElement {
 
   TLinkedElement(int value);
 
-  int value;
+  int value = 0;
 
   TLinkedElement *prev();
   TLinkedElement *next();
