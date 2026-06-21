@@ -26,7 +26,6 @@ LinkedList::LinkedList() {}
 LinkedList::LinkedList(const LinkedList &other) {
   LinkedList tmp;
 
-  // i don't understand if it can throw error
   for (const TLinkedElement *it = other.begin(); it != other.end();
        it = it->next()) {
     tmp.push_back(it->value);
