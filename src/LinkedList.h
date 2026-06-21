@@ -29,7 +29,7 @@ public:
 
   LinkedList(const LinkedList &other);
 
-  LinkedList(LinkedList &&other) noexcept;
+  LinkedList(LinkedList &&other);
 
   /*resources should be free after list is destroyed*/
   ~LinkedList();
@@ -59,8 +59,8 @@ public:
   */
   TLinkedElement *end();
 
-  const TLinkedElement *begin() const;
-  const TLinkedElement *end() const;
+  const TLinkedElement *cbegin() const;
+  const TLinkedElement *cend() const;
 
   void clear();
 

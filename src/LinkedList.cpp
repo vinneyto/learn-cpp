@@ -26,7 +26,7 @@ LinkedList::LinkedList() {}
 LinkedList::LinkedList(const LinkedList &other) {
   LinkedList tmp;
 
-  for (const TLinkedElement *it = other.begin(); it != other.end();
+  for (const TLinkedElement *it = other.cbegin(); it != other.cend();
        it = it->next()) {
     tmp.push_back(it->value);
   }
@@ -35,7 +35,7 @@ LinkedList::LinkedList(const LinkedList &other) {
   swap(tmp);
 }
 
-LinkedList::LinkedList(LinkedList &&other) noexcept {
+LinkedList::LinkedList(LinkedList &&other) {
   swap(other); // swap eats && as first argument - is it ok?
 
   other.clear();
@@ -120,8 +120,8 @@ void LinkedList::erase(TLinkedElement *elem) {
 TLinkedElement *LinkedList::begin() { return head_; }
 TLinkedElement *LinkedList::end() { return nullptr; }
 
-const TLinkedElement *LinkedList::begin() const { return head_; }
-const TLinkedElement *LinkedList::end() const { return nullptr; }
+const TLinkedElement *LinkedList::cbegin() const { return head_; }
+const TLinkedElement *LinkedList::cend() const { return nullptr; }
 
 void LinkedList::swap(LinkedList &other) {
   std::swap(head_, other.head_);
