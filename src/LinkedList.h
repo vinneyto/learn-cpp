@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstddef>
+#include <memory>
 class LinkedList;
 
 struct TLinkedElement {
@@ -19,8 +20,8 @@ struct TLinkedElement {
   const TLinkedElement *next() const;
 
 private:
-  TLinkedElement *prev_ = nullptr;
-  TLinkedElement *next_ = nullptr;
+  std::weak_ptr<TLinkedElement> prev_;
+  std::shared_ptr<TLinkedElement> next_ = nullptr;
 };
 
 class LinkedList {
@@ -71,8 +72,8 @@ public:
   std::size_t size() const;
 
 private:
-  TLinkedElement *head_ = nullptr;
-  TLinkedElement *tail_ = nullptr;
+  std::shared_ptr<TLinkedElement> head_ = nullptr;
+  std::shared_ptr<TLinkedElement> tail_ = nullptr;
 
   std::size_t size_ = 0;
 };

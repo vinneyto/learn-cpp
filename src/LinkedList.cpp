@@ -1,4 +1,6 @@
+#include <algorithm>
 #include <cstddef>
+#include <memory>
 #include <utility>
 
 #include "LinkedList.h"
@@ -9,13 +11,15 @@ TLinkedElement::TLinkedElement() {}
 
 TLinkedElement::TLinkedElement(int value) : value(value) {}
 
-TLinkedElement *TLinkedElement::prev() { return prev_; }
+TLinkedElement *TLinkedElement::prev() { return prev_.lock().get(); }
 
-TLinkedElement *TLinkedElement::next() { return next_; }
+TLinkedElement *TLinkedElement::next() { return next_.get(); }
 
-const TLinkedElement *TLinkedElement::prev() const { return prev_; }
+const TLinkedElement *TLinkedElement::prev() const {
+  return prev_.lock().get();
+}
 
-const TLinkedElement *TLinkedElement::next() const { return next_; }
+const TLinkedElement *TLinkedElement::next() const { return next_.get(); }
 
 // end TLinkedElement
 
@@ -36,10 +40,8 @@ LinkedList::LinkedList(const LinkedList &other) {
 }
 
 LinkedList::LinkedList(LinkedList &&other) noexcept
-    : head_(other.head_), tail_(other.tail_), size_(other.size_) {
-
-  other.head_ = nullptr;
-  other.tail_ = nullptr;
+    : head_(std::move(other.head_)), tail_(std::move(other.tail_)),
+      size_(other.size_) {
   other.size_ = 0;
 }
 
@@ -49,14 +51,9 @@ void LinkedList::clear() {
   auto tail = tail_;
 
   while (tail) {
-    // taking prev
-    auto prev = tail->prev_;
-    // delete itself
-    tail->prev_ = nullptr;
     tail->next_ = nullptr;
-    delete tail;
     // move closer to head
-    tail = prev;
+    tail = tail->prev_.lock();
   }
 
   head_ = nullptr;
@@ -65,7 +62,7 @@ void LinkedList::clear() {
 }
 
 void LinkedList::push_back(int a) {
-  auto elem = new TLinkedElement(a);
+  auto elem = std::make_shared<TLinkedElement>(a);
 
   if (empty()) {
     head_ = elem;
@@ -84,45 +81,35 @@ void LinkedList::erase(TLinkedElement *elem) {
     return;
   }
 
-  auto prev = elem->prev_;
-  auto next = elem->next_;
-
-  // first and only one element
-  if (!next && !prev && elem == head_) {
-    delete elem;
-    head_ = nullptr;
-    tail_ = nullptr;
-    size_ = 0;
+  if (!elem) {
     return;
   }
 
-  // may be last element
+  auto prev = elem->prev_.lock();
+  auto next = elem->next_;
+
+  elem->prev_.reset();
+  elem->next_.reset();
+
   if (prev) {
     prev->next_ = next;
-    if (elem == tail_) {
-      tail_ = prev;
-    }
+  } else {
+    head_ = next;
   }
 
-  // may be first element
   if (next) {
     next->prev_ = prev;
-    if (elem == head_) {
-      head_ = next;
-    }
+  } else {
+    tail_ = prev;
   }
-
-  elem->prev_ = nullptr;
-  elem->next_ = nullptr;
-  delete elem;
 
   size_--;
 }
 
-TLinkedElement *LinkedList::begin() { return head_; }
+TLinkedElement *LinkedList::begin() { return head_.get(); }
 TLinkedElement *LinkedList::end() { return nullptr; }
 
-const TLinkedElement *LinkedList::cbegin() const { return head_; }
+const TLinkedElement *LinkedList::cbegin() const { return head_.get(); }
 const TLinkedElement *LinkedList::cend() const { return nullptr; }
 
 void LinkedList::swap(LinkedList &other) {
